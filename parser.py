@@ -2,7 +2,6 @@ import asyncio
 import aiohttp
 from bs4 import BeautifulSoup
 import os
-import time
 
 from headers import cookies, headers, params
 
@@ -45,7 +44,6 @@ async def download_video(session, url, folder_path, index):
 
 
 async def main():
-    time_start = time.time()
     text = input("Enter key-word: ")
     folder_path = os.path.join("Videos", text.capitalize())
     os.makedirs(folder_path, exist_ok=True)
@@ -62,9 +60,6 @@ async def main():
             await asyncio.gather(*tasks)
         else:
             print("Error with getting data")
-    
-    total_time = time.time() - time_start
-    print(f"Execution time: {total_time:.2f} s.")
 
 
 
