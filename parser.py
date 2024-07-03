@@ -1,9 +1,10 @@
+from headers import cookies, headers, params
+from bs4 import BeautifulSoup
 import asyncio
 import aiohttp
-from bs4 import BeautifulSoup
+import aiofiles
 import os
 
-from headers import cookies, headers, params
 
 
 
@@ -36,8 +37,8 @@ async def download_video(session, url, folder_path, index):
         if response.status == 200:
             video_content = await response.read()
             file_path = os.path.join(folder_path, f"{index}.mp4")
-            with open(file_path, "wb") as f:
-                f.write(video_content)
+            async with aiofiles.open(file_path, "wb") as f:
+                await f.write(video_content)
             print(f"Downloaded {url} to {file_path}")
         else:
             print(f"Failed to download {url}")
@@ -60,6 +61,5 @@ async def main():
             await asyncio.gather(*tasks)
         else:
             print("Error with getting data")
-
 
 
